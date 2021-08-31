@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bjpowernode.crm.workbench.dao.TranDao">
+
+    <select id="getCharts" resultType="map">
+
+        select count(*) as value,stage as name from tbl_tran group by stage
+
+    </select>
+
+    <select id="getTotal" resultType="int">
+
+        select count(*) from tbl_tran
+
+    </select>
+
+    <update id="changeStage">
+
+        update tbl_tran set stage=#{stage},editBy=#{editBy},editTime=#{editTime} where id=#{id}
+
+    </update>
+
+    <select id="detail" resultType="Tran">
+
+        select
+
+        a.id,
+        b.name as owner,
+        a.money,
+        a.name,
+        a.expectedDate,
+        c.name as customerId,
+        a.stage,
+        a.type,
+        a.source,
+        d.name as activityId,
+        e.fullname as contactsId,
+        a.createBy,
+        a.createTime,
+        a.editBy,
+        a.editTime,
+        a.description,
+        a.contactSummary,
+        a.nextContactTime
+
+
+        from tbl_tran a
+        join tbl_user b
+        on a.owner=b.id
+        join tbl_customer c
+        on a.customerId=c.id
+        left join tbl_activity d
+        on a.activityId=d.id
+        left join tbl_contacts e
+        on a.contactsId=e.id
+
+        where a.id=#{id}
+
+    </select>
+
+    <insert id="save">
+
+    insert into tbl_tran(
+
+        id,
+        owner,
+        money,
+        name,
+        expectedDate,
+        customerId,
+        stage,
+        type,
+        source,
+        activityId,
+        contactsId,
+        createBy,
+        createTime,
+        description,
+        contactSummary,
+        nextContactTime
+
+    )values (
+
+        #{id},
+        #{owner},
+        #{money},
+        #{name},
+        #{expectedDate},
+        #{customerId},
+        #{stage},
+        #{type},
+        #{source},
+        #{activityId},
+        #{contactsId},
+        #{createBy},
+        #{createTime},
+        #{description},
+        #{contactSummary},
+        #{nextContactTime}
+
+                )
+
+    </insert>
+	
+  	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
